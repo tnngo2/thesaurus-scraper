@@ -26,8 +26,8 @@ func main() {
 
 func Thesaurus(res http.ResponseWriter, req *http.Request) {
 	url := req.URL.Query()["u"][0]
-	//result := scrape.GetThesaurusUrl(url)
+	result := scrape.GetThesaurusUrl(url)
 	//scrape.PrintSlice(result)
 	//fmt.Fprintln(res, scrape.PrintSliceHtml(result))
-	fmt.Fprintln(res, url)
+	fmt.Fprintln(res, scrape.PrintSliceHtml(result))
 }
