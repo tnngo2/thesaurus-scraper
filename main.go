@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	scrape "github.com/tnngo2/scrape/lib"
+	//scrape "github.com/tnngo2/scrape/lib"
 	"net/http"
 	"os"
 )
@@ -25,7 +25,9 @@ func main() {
 }
 
 func Thesaurus(res http.ResponseWriter, req *http.Request) {
-	url := req.URL.Query()["u"]
-	result := scrape.GetThesaurusUrl(url[0])
-	fmt.Fprintln(res, scrape.PrintSliceHtml(result))
+	url := req.URL.Query()["u"][0]
+	//result := scrape.GetThesaurusUrl(url)
+	//scrape.PrintSlice(result)
+	//fmt.Fprintln(res, scrape.PrintSliceHtml(result))
+	fmt.Fprintln(res, url)
 }
