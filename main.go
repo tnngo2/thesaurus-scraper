@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	//scrape "github.com/tnngo2/scrape/lib"
+	scrape "github.com/tnngo2/scrape/lib"
 	"net/http"
 	"os"
 )
