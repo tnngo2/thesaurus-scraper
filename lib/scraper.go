@@ -24,7 +24,8 @@ func GetThesaurusUrl(url string) []string {
 	return href
 }
 
-func GetWordList(url string) {
+func GetWordList(url string) string {
+	result := ""
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		log.Fatal(err)
@@ -33,12 +34,13 @@ func GetWordList(url string) {
 	doc.Find("#cdo-smartt #cdo-main-cloud .cdo-cloud-content ul li").Each(func(i int, s *goquery.Selection) {
 		word := s.Find("b").Text()
 		href, _ := s.Find("a").Attr("href")
-		//fmt.Printf("%s\t%s \n", word, href)
 		if href != "" {
 			meaning, pronounce, example := GetWordMeaning(href)
-			fmt.Printf("%s\t%s\t%s\t%s\n", word, meaning, pronounce, example)
+			result += fmt.Sprintf("%s\t%s\t%s\t%s\n", word, meaning, pronounce, example)
 		}
 	})
+
+	return result
 }
 
 func GetWordMeaning(url string) (string, string, string) {

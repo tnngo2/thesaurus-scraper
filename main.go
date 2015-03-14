@@ -1,33 +1,38 @@
 package main
 
 import (
-	"fmt"
+	"github.com/gin-gonic/gin"
 	scrape "github.com/tnngo2/scrape/lib"
 	"net/http"
-	"os"
 )
 
 func main() {
-	//result := scrape.ImportWordList("../list.md")
-	//scrape.PrintSlice(result)
+	r := gin.Default()
 
-	//url := "http://dictionary.cambridge.org/dictionary/british/clamp"
-	//result := GetThesaurusUrl(url)
-	//PrintSlice(result)
-	//GetWordList(url)
+	// This handler will match /user/john but will not match neither /user/ or /user
+	r.GET("/topic", func(c *gin.Context) {
+		c.Request.ParseForm()
 
-	http.HandleFunc("/", Thesaurus)
-	fmt.Println("listening...")
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-	if err != nil {
-		panic(err)
-	}
-}
+		url := c.Request.Form.Get("url")
+		message := scrape.GetWordList(url)
+		c.String(http.StatusOK, message)
+	})
 
-func Thesaurus(res http.ResponseWriter, req *http.Request) {
-	url := req.URL.Query()["u"][0]
-	result := scrape.GetThesaurusUrl(url)
-	//scrape.PrintSlice(result)
-	//fmt.Fprintln(res, scrape.PrintSliceHtml(result))
-	fmt.Fprintln(res, scrape.PrintSliceHtml(result))
+	// However, this one will match /user/john/ and also /user/john/send
+	// If no other routers match /user/john, it will redirect to /user/join/
+	r.GET("/user/:name/*action", func(c *gin.Context) {
+		name := c.Params.ByName("name")
+		action := c.Params.ByName("action")
+		message := name + " is " + action
+		c.String(http.StatusOK, message)
+	})
+
+	r.GET("/vn/:name", func(c *gin.Context) {
+		name := c.Params.ByName("name")
+		message := "vn " + name
+		c.String(http.StatusOK, message)
+	})
+
+	// Listen and server on 0.0.0.0:8080
+	r.Run(":3001")
 }

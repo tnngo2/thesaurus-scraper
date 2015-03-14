@@ -13,6 +13,19 @@
 			"Rev": "12a46cd4a183cabd212b37144cf4df55454cf1b8"
 		},
 		{
+			"ImportPath": "github.com/gin-gonic/gin",
+			"Comment": "v0.6",
+			"Rev": "e2fa89777e344782ef5d31929f095f4589c35dcc"
+		},
+		{
+			"ImportPath": "github.com/julienschmidt/httprouter",
+			"Rev": "f88e0d361fa3ada4c6015805c9131a4e8e956f65"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-colorable",
+			"Rev": "043ae16291351db8465272edf465c9f388161627"
+		},
+		{
 			"ImportPath": "golang.org/x/net/html",
 			"Rev": "1db34d83398887aa887306d261882f799bee3678"
 		}
