@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	scrape "github.com/tnngo2/scrape/lib"
 	"net/http"
-	//"os"
+	"os"
 )
 
 func main() {
