@@ -36,5 +36,5 @@ func main() {
 
 	// Listen and server on 0.0.0.0:8080
 	//r.Run(":80")
-	r.Run(os.Getenv("PORT"))
+	r.Run("3001")
 }
