@@ -50,6 +50,15 @@ func GetWordMeaning(url string) (string, string, string) {
 	pronounce := doc.Find("#entryContent span.us span.pron").Text()
 	example := doc.Find("#entryContent #1-1 .examp").First().Text()
 
+	if meaning != "" {
+		meaning := doc.Find("#entryContent span.def").Text()
+		example := doc.Find("#entryContent .examp").First().Text()
+	}
+
+	if pronounce != "" {
+		pronounce := doc.Find("#entryContent span.uk span.pron").Text()
+	}
+
 	return meaning, pronounce, example
 }
 
