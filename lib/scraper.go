@@ -51,12 +51,12 @@ func GetWordMeaning(url string) (string, string, string) {
 	example := doc.Find("#entryContent #1-1 .examp").First().Text()
 
 	if meaning != "" {
-		meaning := doc.Find("#entryContent span.def").Text()
-		example := doc.Find("#entryContent .examp").First().Text()
+		meaning = doc.Find("#entryContent span.def").Text()
+		example = doc.Find("#entryContent .examp").First().Text()
 	}
 
 	if pronounce != "" {
-		pronounce := doc.Find("#entryContent span.uk span.pron").Text()
+		pronounce = doc.Find("#entryContent span.uk span.pron").Text()
 	}
 
 	return meaning, pronounce, example
