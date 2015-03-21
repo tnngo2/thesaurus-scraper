@@ -35,20 +35,27 @@ func GetWordList(url string) string {
 		word := s.Find("b").Text()
 		href, _ := s.Find("a").Attr("href")
 		if href != "" {
-			meaning, pronounce, example := GetWordMeaning(href)
-			result += fmt.Sprintf("%s\t%s\t%s\t%s\n", word, meaning, pronounce, example)
+			meaning, pronounce, example, guideword := GetWordMeaning(href)
+			result += fmt.Sprintf("%s\t%s\t%s\t%s\t%s\n", word, meaning, pronounce, example, guideword)
 		}
 	})
 
 	return result
 }
 
-func GetWordMeaning(url string) (string, string, string) {
+func GetWordMeaning(url string) (string, string, string, string) {
 	doc := GetNewDocument(url)
 
 	meaning := doc.Find("#entryContent #1-1 span.def").Text()
 	pronounce := doc.Find("#entryContent span.us span.pron").Text()
 	example := doc.Find("#entryContent #1-1 .examp").First().Text()
+	guideword := doc.Find(".guideword").First().Text()
+	guideword = strings.TrimSpace(guideword)
+	//guideword = strings.Replace(guideword, " ", "", -1)
+	guideword = doc.Find(".posgram .pos").First().Text() + " " + guideword
+	//guideword = strings.Replace(guideword, " ", "", -1)
+	guideword = strings.Replace(guideword, "\n", "", -1)
+	guideword = strings.Replace(guideword, "\t", "", -1)
 
 	if meaning != "" {
 		meaning = doc.Find("#entryContent span.def").Text()
@@ -59,7 +66,7 @@ func GetWordMeaning(url string) (string, string, string) {
 		pronounce = doc.Find("#entryContent span.uk span.pron").Text()
 	}
 
-	return meaning, pronounce, example
+	return meaning, pronounce, example, guideword
 }
 
 func GetNewDocument(url string) *goquery.Document {
