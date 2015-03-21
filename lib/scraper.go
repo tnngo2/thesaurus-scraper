@@ -46,21 +46,15 @@ func GetWordList(url string) string {
 func GetWordMeaning(url string) (string, string, string, string) {
 	doc := GetNewDocument(url)
 
-	meaning := doc.Find("#entryContent #1-1 span.def").Text()
-	pronounce := doc.Find("#entryContent span.us span.pron").Text()
-	example := doc.Find("#entryContent #1-1 .examp").First().Text()
+	meaning := doc.Find(".def").First().Text()
+	pronounce := doc.Find("span.us span.pron").First().Text()
+	example := doc.Find(".examp").First().Text()
 	guideword := doc.Find(".guideword").First().Text()
 	guideword = strings.TrimSpace(guideword)
-	//guideword = strings.Replace(guideword, " ", "", -1)
+
 	guideword = doc.Find(".posgram .pos").First().Text() + " " + guideword
-	//guideword = strings.Replace(guideword, " ", "", -1)
 	guideword = strings.Replace(guideword, "\n", "", -1)
 	guideword = strings.Replace(guideword, "\t", "", -1)
-
-	if meaning != "" {
-		meaning = doc.Find("#entryContent span.def").Text()
-		example = doc.Find("#entryContent .examp").First().Text()
-	}
 
 	if pronounce != "" {
 		pronounce = doc.Find("#entryContent span.uk span.pron").Text()
