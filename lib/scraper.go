@@ -50,6 +50,14 @@ func GetWordMeaning(url string) (string, string, string, string) {
 	pronounce := doc.Find("span.us span.pron").First().Text()
 	example := doc.Find(".examp").First().Text()
 	guideword := doc.Find(".guideword").First().Text()
+	var derivedWord string
+
+	doc.Find(".runon-head").Each(func(i int, s *goquery.Selection) {
+		derivedWordRoot := s.Find(".w").Text()
+		derivedWordPosgram := s.Find(".posgram").Text()
+		derivedWord = derivedWord + "; [" + derivedWordPosgram + "] " + derivedWordRoot
+	})
+
 	guideword = strings.TrimSpace(guideword)
 
 	guideword = doc.Find(".posgram").First().Text() + " " + guideword
@@ -60,7 +68,7 @@ func GetWordMeaning(url string) (string, string, string, string) {
 		pronounce = doc.Find("#entryContent span.uk span.pron").Text()
 	}
 
-	return meaning, pronounce, example, guideword
+	return meaning, pronounce, example, guideword + derivedWord
 }
 
 func GetNewDocument(url string) *goquery.Document {
