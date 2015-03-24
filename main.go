@@ -1,21 +1,20 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	scrape "github.com/tnngo2/scrape/lib"
-	"log"
+	//"log"
 	"net/http"
+	"net/url"
 	"os"
+	"strings"
 )
 
 func main() {
 	r := gin.Default()
-	//r := gin.New()
 	r.Use(Logger())
 	r.LoadHTMLGlob("templates/*")
 
-	// This handler will match /user/john but will not match neither /user/ or /user
 	r.GET("/topic", func(c *gin.Context) {
 		c.Request.ParseForm()
 
@@ -25,22 +24,31 @@ func main() {
 	})
 
 	r.GET("/mean", func(c *gin.Context) {
-		url := "http://dictionary.cambridge.org/search/british/direct/?q="
+		var response string
+		const (
+			BASE_URL = "http://dictionary.cambridge.org/search/british/direct/?q="
+		)
+
 		c.Request.ParseForm()
+
 		wordList := c.Request.Form.Get("wordList")
-		log.Println("....")
-		if wordList != "" {
-			url = url + wordList
-			word := wordList
-			meaning, pronounce, example, guideword := scrape.GetWordMeaning(url)
-			elem := fmt.Sprintf("%s\t%s\t%s\t%s\t%s\n", word, meaning, pronounce, example, guideword)
-			obj := gin.H{"title": elem}
-			c.HTML(http.StatusOK, "mean.tmpl", obj)
+		wordSlice := strings.Split(wordList, "\n")
+
+		for i := range wordSlice {
+			request := BASE_URL + url.QueryEscape(wordSlice[i])
+			word := wordSlice[i]
+			word = strings.TrimSpace(word)
+
+			meaning, pronounce, example, guideword := scrape.GetWordMeaning(request)
+
+			elem := word + "\t" + meaning + "\t" + pronounce + "\t" + example + "\t" + guideword + "\n"
+			response = response + elem
 		}
+
+		obj := gin.H{"response": response}
+		c.HTML(http.StatusOK, "mean.tmpl", obj)
 	})
 
-	// Listen and server on 0.0.0.0:8080
-	//r.Run(":80")
 	r.Run(":" + os.Getenv("PORT"))
 }
 

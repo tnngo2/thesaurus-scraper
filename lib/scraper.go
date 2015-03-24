@@ -52,7 +52,7 @@ func GetWordMeaning(url string) (string, string, string, string) {
 	guideword := doc.Find(".guideword").First().Text()
 	guideword = strings.TrimSpace(guideword)
 
-	guideword = doc.Find(".posgram .pos").First().Text() + " " + guideword
+	guideword = doc.Find(".posgram").First().Text() + " " + guideword
 	guideword = strings.Replace(guideword, "\n", "", -1)
 	guideword = strings.Replace(guideword, "\t", "", -1)
 
