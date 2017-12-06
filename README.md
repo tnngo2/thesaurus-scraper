@@ -1,10 +1,11 @@
-#A therausus scraper for vocabulary studying purpose
-This micro service will generate file that is used as imported content to Memrise.
+# A therausus scraper
+I used this project to scrap Cambridge therausus content and copy those scrapped content to Memrise for reviewing purpose.
 
-Written in Go lang, based on Gin web framework.
+The project is configured as a micro service which is ready for Heroku deployment.
 
-##Ready for heroku deployment
+Written in Go lang, and Gin web framework.
 
+# Heroku deployment
 ```
 $ heroku login
 $ git init
